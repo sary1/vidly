@@ -11,7 +11,9 @@ const getUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id).select("-password -__v");
     if (!user) return res.status(404).json({ error: "User does not exist" });
-    return res.status(200).json({ user });
+
+    const token = user.generateAuthToken();
+    return res.status(200).header("x-auth-token", token).json({ user });
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }

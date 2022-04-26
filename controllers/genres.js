@@ -7,6 +7,8 @@ const getGenres = async (req, res) => {
 };
 
 const createGenre = async (req, res) => {
+  if (!req.user.isAdmin)
+    return res.status(403).json({ error: "Access Denied" });
   const genre = req.body;
 
   const { error } = validateGenre(genre);
