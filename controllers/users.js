@@ -1,10 +1,20 @@
 const { User, validateUser } = require("../models/User");
-const jwt = require("jsonwebtoken");
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
 
-const getUsers = (req, res) => {
-  res.send("user router works from controller");
+const getUsers = async (req, res) => {
+  const users = await User.find().select("-password -__v");
+  res.status(200).json({ users });
+};
+
+const getUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select("-password -__v");
+    if (!user) return res.status(404).json({ error: "User does not exist" });
+    return res.status(200).json({ user });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
 };
 
 const createUser = async (req, res) => {
@@ -31,4 +41,4 @@ const createUser = async (req, res) => {
   }
 };
 
-module.exports = { getUsers, createUser };
+module.exports = { getUsers, getUser, createUser };
