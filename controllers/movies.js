@@ -43,4 +43,23 @@ const createMovie = async (req, res) => {
   }
 };
 
-module.exports = { getMovies, getMovie, createMovie };
+const updateMovie = async (req, res) => {
+  try {
+    const { error } = validateMovie(req.body);
+    if (error) return res.status(400).json({ error: error.details[0].message });
+    const movie = await Movie.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      { new: true }
+    );
+    return res.status(200).json({ movie });
+  } catch (error) {
+    return error.code === 11000
+      ? res.status(500).json({ error: "The input string must be unique" })
+      : res.status(500).json({ error });
+  }
+};
+
+module.exports = { getMovies, getMovie, createMovie, updateMovie };

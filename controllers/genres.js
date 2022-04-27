@@ -20,7 +20,7 @@ const createGenre = async (req, res) => {
   } catch (error) {
     return error.code === 11000
       ? res.status(500).json({ error: "The input string must be unique" })
-      : res.status(500).json({ error: error.errors.name.message });
+      : res.status(500).json({ error });
   }
 };
 
