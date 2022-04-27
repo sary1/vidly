@@ -10,6 +10,17 @@ const getMovies = async (req, res) => {
   }
 };
 
+const getMovie = async (req, res) => {
+  try {
+    const movie = await Movie.findById(req.params.id);
+    if (!movie)
+      return res.status(404).json({ error: "No movie with the given ID" });
+    res.status(200).json({ movie });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const createMovie = async (req, res) => {
   const { error } = validateMovie(req.body);
   if (error) return res.status(400).json({ error: error.details[0].message });
@@ -32,4 +43,4 @@ const createMovie = async (req, res) => {
   }
 };
 
-module.exports = { getMovies, createMovie };
+module.exports = { getMovies, getMovie, createMovie };
