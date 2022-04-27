@@ -1,7 +1,7 @@
 const { Genre } = require("../models/Genre");
 const { Movie, validateMovie } = require("../models/Movie");
 
-const getMovie = async (req, res) => {
+const getMovies = async (req, res) => {
   try {
     const movies = await Movie.find();
     res.status(200).json({ movies });
@@ -32,4 +32,4 @@ const createMovie = async (req, res) => {
   }
 };
 
-module.exports = { getMovie, createMovie };
+module.exports = { getMovies, createMovie };
