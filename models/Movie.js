@@ -1,6 +1,6 @@
 const Joi = require("joi");
 const mongoose = require("mongoose");
-const { genreSchema } = require("./Genre");
+const { Genre } = require("./Genre");
 const { Schema } = mongoose;
 
 const movieSchema = new Schema({
@@ -18,7 +18,8 @@ const movieSchema = new Schema({
     required: true,
   },
   genre: {
-    type: genreSchema,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Genre",
     required: true,
   },
   dailyRentalRate: {

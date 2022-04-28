@@ -29,17 +29,12 @@ const createMovie = async (req, res) => {
   if (!genre) return res.status(400).json({ error: "Invalid Genre" });
 
   try {
-    const movie = new Movie({
-      ...req.body,
-      genre: { _id: genre._id, name: genre.name },
-    });
+    const movie = new Movie(req.body);
     await movie.save();
 
     res.status(200).json({ movie });
   } catch (error) {
-    return error.code === 11000
-      ? res.status(500).json({ error: "The input string must be unique" })
-      : res.status(500).json({ error: error.errors.name.message });
+    return res.status(500).json({ error });
   }
 };
 
@@ -47,6 +42,10 @@ const updateMovie = async (req, res) => {
   try {
     const { error } = validateMovie(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });
+
+    const genre = await Genre.findById(req.body.genre);
+    if (!genre) return res.status(400).json({ error: "Invalid Genre" });
+
     const movie = await Movie.findByIdAndUpdate(
       req.params.id,
       {
@@ -56,9 +55,7 @@ const updateMovie = async (req, res) => {
     );
     return res.status(200).json({ movie });
   } catch (error) {
-    return error.code === 11000
-      ? res.status(500).json({ error: "The input string must be unique" })
-      : res.status(500).json({ error });
+    return res.status(500).json({ error });
   }
 };
 
@@ -68,9 +65,7 @@ const deleteMovie = async (req, res) => {
     if (!movie) return res.status(404).json({ error: "Movie not found" });
     return res.status(200).json({ movie });
   } catch (error) {
-    return error.code === 11000
-      ? res.status(500).json({ error: "The input string must be unique" })
-      : res.status(500).json({ error });
+    return res.status(500).json({ error });
   }
 };
 
