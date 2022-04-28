@@ -38,7 +38,13 @@ const updateCustomer = async (req, res) => {
 };
 
 const deleteCustomer = async (req, res) => {
-  res.send("create a customer");
+  try {
+    const customer = await Customer.findByIdAndRemove(req.params.id);
+    if (!customer) return res.status(404).json({ error: "User not found" });
+    return res.status(200).json({ customer });
+  } catch (error) {
+    return res.status(500).json(error);
+  }
 };
 
 module.exports = {
