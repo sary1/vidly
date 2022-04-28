@@ -10,7 +10,13 @@ const getCustomers = async (req, res) => {
 };
 
 const getCustomer = async (req, res) => {
-  res.send("get a customer");
+  try {
+    const customer = await Customer.findById(req.params.id);
+    if (!customer) return res.status(404).json({ error: "User not found" });
+    return res.status(200).json({ customer });
+  } catch (error) {
+    return res.status(500).json(error);
+  }
 };
 
 const createCustomer = async (req, res) => {
