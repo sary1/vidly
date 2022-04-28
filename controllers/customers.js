@@ -1,7 +1,12 @@
 const { Customer, validateCustomer } = require("../models/Customer");
 
 const getCustomers = async (req, res) => {
-  res.send("get all customers");
+  try {
+    const customers = await Customer.find();
+    return res.status(200).json({ customers });
+  } catch (error) {
+    return res.status(500).json(error);
+  }
 };
 
 const getCustomer = async (req, res) => {
