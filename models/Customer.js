@@ -27,6 +27,8 @@ const validateCustomer = (customer) => {
     isGold: Joi.boolean(),
     phone: Joi.string().min(3).max(50).required(),
   });
+
+  return schema.validate(customer);
 };
 
 module.exports = { Customer, customerSchema, validateCustomer };
