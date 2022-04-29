@@ -7,6 +7,7 @@ const genreRouter = require("./routes/genres");
 const userRouter = require("./routes/users");
 const movieRouter = require("./routes/movies");
 const customerRouter = require("./routes/customers");
+const authRouter = require("./routes/auth");
 
 const express = require("express");
 const app = express();
@@ -20,6 +21,7 @@ app.use("/api/v1/genres", genreRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/movies", movieRouter);
 app.use("/api/v1/customers", customerRouter);
+app.use("/api/v1/auth", authRouter);
 app.get("/", (req, res) => {
   res.send("Hello world");
 });
