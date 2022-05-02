@@ -8,12 +8,17 @@ const getRentals = async (req, res) => {
     const rentals = await Rental.find();
     return res.status(200).json({ rentals });
   } catch (error) {
-    res.status(500).json([error]);
+    res.status(500).json({ error });
   }
 };
 
 const getRental = async (req, res) => {
-  res.send("Get a rental");
+  try {
+    const rental = await Rental.findById(req.params.id);
+    return res.status(200).json({ rental });
+  } catch (error) {
+    res.status(500).json([error]);
+  }
 };
 
 const createRental = async (req, res) => {
