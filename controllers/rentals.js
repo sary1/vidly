@@ -4,7 +4,12 @@ const { Movie } = require("../models/Movie");
 const { Rental, validateRental } = require("../models/Rental");
 
 const getRentals = async (req, res) => {
-  res.send("Get all rentals");
+  try {
+    const rentals = await Rental.find();
+    return res.status(200).json({ rentals });
+  } catch (error) {
+    res.status(500).json([error]);
+  }
 };
 
 const getRental = async (req, res) => {
