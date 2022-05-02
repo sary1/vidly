@@ -37,7 +37,7 @@ const createRental = async (req, res) => {
 
   try {
     await rental.save();
-    await movie.update({ $inc: { numberInStock: -1 } });
+    await movie.updateOne({ $inc: { numberInStock: -1 } });
     return res.status(200).json({ rental });
   } catch (error) {
     return res.status(500).json({ error });
